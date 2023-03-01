@@ -43,7 +43,9 @@ SELECT * FROM menu
 -- 	(DEFAULT, 'Banana Berry Treat 32oz', 7.19, '2, 1, 7, 4, 32, 37, 39'), 
 -- 	(DEFAULT, 'Banana Berry treat 40oz', 8.49, '2, 1, 7, 4, 32, 38, 39')
 -- 	;
---
+
+INSERT INTO menu (menuid, itemname, itemprice, invlist)
+VALUES
 	
 	
 	
