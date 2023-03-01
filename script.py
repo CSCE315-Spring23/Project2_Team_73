@@ -1,7 +1,50 @@
 import csv
 import random
 
-# define the data to write to the CSV file
+arr = [5.99, 5.99, 6.29, 6.69 , 6.29, 5.99 ,6.49
+    ,7.19
+    ,7.19
+    ,7.69
+    ,7.89
+    ,7.49
+    ,7.19
+    ,7.69
+    ,8.49
+    ,8.49
+    ,8.69
+    ,8.89
+    ,8.69
+    ,8.49
+    ,8.69
+    ,5.99
+    ,7.19
+    ,8.49
+    ,5.99
+    ,7.19
+    ,8.49
+    ,5.99
+    ,7.19
+    ,8.49
+    ,5.99
+    ,7.19
+    ,8.49
+    ,2.99
+    ,2.99
+    ,2.99
+    ,2.19
+    ,2.89
+    ,6.09
+    ,8.49
+    ,10.09
+    ,6.09
+    ,8.49
+    ,10.09
+    ,6.09
+    ,8.49
+    ,10.09
+    ,6.09
+    ,8.49
+    ,10.09]
  
 
 # open a new CSV file for writing
@@ -49,16 +92,45 @@ with open('data.csv', 'w', newline='') as csvfile:
             month = '12'
             day_of_month = i - 334 
 
-        for j in range(1, 140 ):
+        for j in range(1, 240 ):
             hour = random.randint(8,20)
             minute = random.randint(0,59)  
             second = random.randint(0,59)  
-            employeeid = random.randint(1, 23)
-            customerid = random.randint(1, 2001)
+            employeeid = random.randint(1, 22)
+            customerid = random.randint(1, 2000)
+            item1 = random.randint(1,50)
+            item2 = random.randint(1,50)
+            orderlist = "{}, {}".format(item1, item2)
+            cost = round((arr[item1-1 ] + arr[item2 -1] ) * 1.0625, 2)
             # example '2016-06-22 19:10:25'
             ordertime = "2022-{}-{} {}:{}:{}".format(month,day_of_month,hour,minute,second) 
-            writer.writerow([orderid, ordertime, employeeid, customerid ])
+            writer.writerow([orderid, ordertime, employeeid, customerid, orderlist, cost])
             orderid += 1
-          
-         
+        for k in range(1, 140 ):
+            hour = random.randint(8,20)
+            minute = random.randint(0,59)  
+            second = random.randint(0,59)  
+            employeeid = random.randint(1, 22)
+            customerid = random.randint(1, 2000)
+            item1 = random.randint(1,50) 
+            orderlist = "{}".format(item1 )
+            cost = round((arr[item1-1 ] ) * 1.0625, 2)
+            # example '2016-06-22 19:10:25'
+            ordertime = "2022-{}-{} {}:{}:{}".format(month,day_of_month,hour,minute,second) 
+            writer.writerow([orderid, ordertime, employeeid, customerid, orderlist, cost])
+            orderid += 1  
+        if(i == 294 or i == 315 ):
+            for k in range(1, 140 ):
+                hour = random.randint(8,20)
+                minute = random.randint(0,59)  
+                second = random.randint(0,59)  
+                employeeid = random.randint(1, 22)
+                customerid = random.randint(1, 2000)
+                item1 = random.randint(1,50) 
+                orderlist = "{}".format(item1 )
+                cost = round((arr[item1-1 ] ) * 1.0625, 2)
+                # example '2016-06-22 19:10:25'
+                ordertime = "2022-{}-{} {}:{}:{}".format(month,day_of_month,hour,minute,second) 
+                writer.writerow([orderid, ordertime, employeeid, customerid, orderlist, cost])
+                orderid += 1
 print("CSV file created successfully!") 
