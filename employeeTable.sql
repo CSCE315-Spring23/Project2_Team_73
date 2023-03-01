@@ -22,8 +22,5 @@ VALUES
 	(DEFAULT, 'bethany', 'michael', 13.48, false)
 ;
 
--- INSERT INTO teammembers(student_name, section, favorite_movie)
--- VALUES
--- 	('Lucas', 596, 'spongebob')
--- ;
+--
 
