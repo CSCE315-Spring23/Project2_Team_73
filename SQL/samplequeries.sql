@@ -14,7 +14,7 @@ AND ordertime < '2022-10-23';
 SELECT numitems FROM inventory
 WHERE itemname = 'large cup';
 /*6) How many unique customers are there ?*/
-SELECT count(*) from customer
+SELECT count(*) from customer;
 /*7) What is the price of Apple Kiwi Kale 20oz ?*/
 SELECT itemprice FROM menu
 WHERE itemname = 'Apple Kiwi Kale 20oz';
