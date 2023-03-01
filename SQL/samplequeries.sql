@@ -34,7 +34,16 @@ WHERE gender = 'Male';
 SELECT COUNT(*) FROM inventory;
 /*11) How many unique items on menu(20oz vs 32oz are unique) ?*/
 SELECT COUNT(*) FROM menu;
-
+/*12) How many employees make under $20 an hour?*/
+SELECT COUNT(*) FROM employees
+WHERE hourlyrate < 20.0 ;
+/*13)Is John an admin?*/
+SELECT isadmin FROM employees
+WHERE firstname = 'john';
+/*14)Most expensive menu item?*/
+SELECT MAX(itemprice) from menu;
+/*15)Cheapest menu item?*/
+SELECT MIN(itemprice) from menu;
 
 
 
