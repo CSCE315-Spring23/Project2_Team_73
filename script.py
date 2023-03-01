@@ -9,7 +9,7 @@ with open('data.csv', 'w', newline='') as csvfile:
     
     # create a CSV writer object
     writer = csv.writer(csvfile)
-    
+    orderid = 1
     for i in range(1, 366):
         #find the month
         if i <= 31:
@@ -54,9 +54,11 @@ with open('data.csv', 'w', newline='') as csvfile:
             minute = random.randint(0,59)  
             second = random.randint(0,59)  
             employeeid = random.randint(1, 23)
+            customerid = random.randint(1, 2001)
             # example '2016-06-22 19:10:25'
             ordertime = "2022-{}-{} {}:{}:{}".format(month,day_of_month,hour,minute,second) 
-            writer.writerow(["DEFAULT", ordertime, employeeid, ])
+            writer.writerow([orderid, ordertime, employeeid, customerid ])
+            orderid += 1
           
          
 print("CSV file created successfully!") 
