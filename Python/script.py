@@ -119,8 +119,8 @@ with open('data.csv', 'w', newline='') as csvfile:
             ordertime = "2022-{}-{} {}:{}:{}".format(month,day_of_month,hour,minute,second) 
             writer.writerow([orderid, ordertime, employeeid, customerid, orderlist, cost])
             orderid += 1  
-        if(i == 294 or i == 315 ):
-            for k in range(1, 140 ):
+        if(i == 295 or i == 316 ):
+            for p in range(1, 140 ):
                 hour = random.randint(8,20)
                 minute = random.randint(0,59)  
                 second = random.randint(0,59)  
