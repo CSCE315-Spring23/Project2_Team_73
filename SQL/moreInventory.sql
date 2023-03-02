@@ -7,6 +7,7 @@ VALUES
 	(DEFAULT, 500, 1.49, 'Quest Protein Bar'),
 	(DEFAULT, 1000, 2.51, 'Strawberry'),
 	(DEFAULT, 1000, 6.88, 'Raspberry'),
-	(DEFAULT, 1000, 1.31, 'Apple')
+	(DEFAULT, 1000, 1.31, 'Apple'),
+	(DEFAULT, 1000, 1.50, 'Mango')
 	;
 	
