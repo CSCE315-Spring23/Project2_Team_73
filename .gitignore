@@ -1,1 +1,1 @@
-*.class
+**/guiProject/src/*.class**
