@@ -44,6 +44,8 @@ WHERE firstname = 'john';
 SELECT MAX(itemprice) from menu;
 /*15)Cheapest menu item?*/
 SELECT MIN(itemprice) from menu;
-
+/*16)sales by customer?  */
+select sum(orderprice) from orders
+GROUP BY customerid; 
 
 
