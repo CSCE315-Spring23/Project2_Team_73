@@ -80,8 +80,7 @@ public class jdbcpostgreSQL extends JFrame {
             f = new JFrame("DB GUI");
 
             // create a object
-            GUI s = new GUI();
-
+            
             // create a panel
             JPanel p = new JPanel();
             p.setSize(400, 400);
