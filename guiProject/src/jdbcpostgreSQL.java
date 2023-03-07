@@ -21,7 +21,7 @@ public class jdbcpostgreSQL {
     String teamNumber = "team_73";
     String dbName = "csce315331_" + teamNumber;
     String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" + dbName;
-    dbSetup myCredentials = new dbSetup(); 
+  
 
     //Connecting to the database
     try {
