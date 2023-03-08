@@ -9,11 +9,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.lang.Math.*;
 
-/*
-CSCE 315
-9-27-2021 Lab
- */
 
+/**
+ * The jdbcpostgreSQL class represents a graphical user interface for interacting with a PostgreSQL database using JDBC.
+ * It extends the JFrame class and implements the ActionListener interface to handle user events.
+ * This class provides methods to establish a connection to a PostgreSQL database, execute SQL queries and updates,
+ * and display the results in a table format. It also includes event listeners for user actions such as button clicks
+ * and menu selections, allowing the user to interact with the database and perform various operations.
+ * To use this class, you must have the JDBC driver for PostgreSQL installed and configured on your system
+ * @author Tyler, Nitesh, Lucas
+ */ 
 public class jdbcpostgreSQL extends JFrame implements ActionListener {
     static JFrame f;
     static JFrame managerView;
@@ -38,6 +43,9 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
     // Mac/Linux: java -cp ".:postgresql-42.2.8.jar" jdbcpostgreSQL
 
     // MAKE SURE YOU ARE ON VPN or TAMU WIFI TO ACCESS DATABASE
+    /**
+     * This is the default constructor for the class. It creates a connection to the database and sets up the GUI
+     */
     public jdbcpostgreSQL() {
         // Building the connection with your credentials
         Connection conn = null;
@@ -141,7 +149,11 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
         }
 
     }
-
+    /**
+     * This is the actionPerformed method. It handles ActionEvents from the buttons.
+     * It checks to see what type of button it is and performs the action needed.
+     * @param e the ActionEvent object that describes the user's action 
+     */
     public void actionPerformed(ActionEvent e) {
         // Update global variable when a button is clicked
         JButton o = (JButton) e.getSource();
@@ -217,7 +229,12 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             orderArea.setText(orderList);
         }
     }
-
+    /**
+     * 
+     * @param args an array of command-line arguments passed to the program
+     * This main method is where the jdbcpostgreSQL class will be invoked, creating a new GUI.
+     * 
+     */
     public static void main(String args[]) {
 
         new jdbcpostgreSQL();
