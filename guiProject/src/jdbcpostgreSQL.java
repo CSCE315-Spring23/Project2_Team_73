@@ -16,6 +16,7 @@ CSCE 315
 
 public class jdbcpostgreSQL extends JFrame implements ActionListener {
     static JFrame f;
+    static JFrame managerView;
     String orderList = "";
     String orderListID = "";
     Connection conn = null;
@@ -52,21 +53,20 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        
 
         try {
             Statement newStmt = conn.createStatement();
             String sqlStatement = "SELECT MAX(orderid) FROM orders";
             ResultSet result = newStmt.executeQuery(sqlStatement);
             if (result.next()) {
-                currOrderId = result.getInt("max") + 1 ; 
-            }        
+                currOrderId = result.getInt("max") + 1;
+            }
         } catch (Exception d) {
             d.printStackTrace();
             System.err.println(d.getClass().getName() + ": " + d.getMessage());
             System.exit(0);
         }
-        
+
         System.out.println("Opened database successfully");
         JPanel buttonPanel = new JPanel(new GridLayout(20, 3));
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -106,9 +106,14 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             orderButton.addActionListener(this);
 
             text.setText("Enter Employee ID");
+            JButton switchViewButton = new JButton();
+            switchViewButton.setText("Enter Manager View");
+            switchViewButton.setName("SwitchView");
+            switchViewButton.addActionListener(this);
 
             lowPanel.add(text);
             lowPanel.add(orderButton);
+            lowPanel.add(switchViewButton);
 
             p.setRightComponent(lowPanel);
             p.setDividerLocation(0.75);
@@ -119,9 +124,14 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             // f.add(orderPanel);
 
             // set the size of frame
-            f.setSize(800, 800);
+            
+            f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
             f.setVisible(true);
+            managerView = new JFrame("Manager GUI");
+            managerView.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+            managerView.setVisible(false);
             // OR
             // System.out.println(result);
         } catch (Exception e) {
@@ -159,8 +169,9 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             }
             try {
                 Statement newStmt = conn.createStatement();
-                String sqlStatement = "INSERT INTO orders VALUES (" + currOrderId + ", '" + currTime + "', " + employeeID + ", " +customerID + ", '" + orderListID + "', " + roundedNum + ")";
-                newStmt.executeUpdate(sqlStatement); 
+                String sqlStatement = "INSERT INTO orders VALUES (" + currOrderId + ", '" + currTime + "', "
+                        + employeeID + ", " + customerID + ", '" + orderListID + "', " + roundedNum + ")";
+                newStmt.executeUpdate(sqlStatement);
             } catch (Exception d) {
                 d.printStackTrace();
                 System.err.println(e.getClass().getName() + ": " + d.getMessage());
@@ -174,6 +185,9 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             text.setText("Please Enter EmployeeID");
             orderArea.setText("");
             currOrderId += 1;
+        } else if (name == "SwitchView") {
+            f.setVisible(false);
+            managerView.setVisible(true);
         } else {
             try {
                 conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
