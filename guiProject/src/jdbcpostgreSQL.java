@@ -50,6 +50,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
     JTextArea invPrice = new JTextArea();
     JTextArea invName = new JTextArea();
     JTextArea invCount = new JTextArea();
+    JPanel buttonPanel = new JPanel(new GridLayout(20, 3));
 
     // Commands to run this script
     // This will compile all java files in this directory
@@ -93,7 +94,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
         }
 
         System.out.println("Opened database successfully");
-        JPanel buttonPanel = new JPanel(new GridLayout(20, 3));
+         
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         buttonPanel.setPreferredSize(new Dimension(300, 300));
 
@@ -487,6 +488,13 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             menuItemList.addItem("Add New Item....");
             menuItemList.setSelectedItem(newName);
 
+            ///////////////
+            JButton newItem = new JButton();
+            newItem.setName(newName);
+            newItem.setText(newName);
+            newItem.addActionListener(this);
+            buttonPanel.add(newItem);
+
         } catch (Exception d) {
             d.printStackTrace();
             System.err.println(d.getClass().getName() + ": " + d.getMessage());
@@ -505,6 +513,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             menuItemList.removeItem(menuItemList.getSelectedItem());
 
             menuItemList.setSelectedItem(0);
+            buttonPanel.remove(buttonPanel.getComponentCount() -1);
 
         } catch (Exception d) {
             d.printStackTrace();
@@ -595,6 +604,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             inventoryItemList.addItem(newName);
             inventoryItemList.addItem("Add New Item....");
             inventoryItemList.setSelectedItem(newName);
+             
 
         } catch (Exception d) {
             d.printStackTrace();
