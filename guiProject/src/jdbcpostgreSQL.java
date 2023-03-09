@@ -447,8 +447,8 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
 
             menuItemList.addItem(newName);
             menuItemList.addItem("Add New Item....");
-            menuItemList.setSelectedItem(newName);
-
+            menuItemList.setSelectedItem(newName); 
+            
         } catch (Exception d) {
             d.printStackTrace();
             System.err.println(d.getClass().getName() + ": " + d.getMessage());
