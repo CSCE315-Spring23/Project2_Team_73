@@ -8,6 +8,7 @@ import java.util.Random;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.lang.Math.*;
+import java.util.ArrayList;
 
 /**
  * The jdbcpostgreSQL class represents a graphical user interface for
@@ -244,13 +245,13 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             nextInnerPanel.add(inventoryItemList);
 
             invName.setBorder(BorderFactory.createLineBorder(Color.black));
-            invName.setPreferredSize(new Dimension(200,30));
+            invName.setPreferredSize(new Dimension(200, 30));
             nextInnerPanel.add(invName);
 
-            invPrice.setPreferredSize(new Dimension(200,30));
+            invPrice.setPreferredSize(new Dimension(200, 30));
             nextInnerPanel.add(invPrice);
 
-            invCount.setPreferredSize(new Dimension(200,30));
+            invCount.setPreferredSize(new Dimension(200, 30));
             invCount.setBorder(BorderFactory.createLineBorder(Color.black));
             nextInnerPanel.add(invCount);
 
@@ -278,7 +279,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
                 }
             });
             nextInnerPanel.add(updateInvButton);
- 
+
             // add to overall
             mainManagerPanel.add(innerMenuPane);
             mainManagerPanel.add(nextInnerPanel);
@@ -330,6 +331,8 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
                 System.exit(0);
             }
 
+            updateInventory(orderListID);
+
             // reset variables
             orderList = "";
             orderListID = "";
@@ -355,8 +358,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
                     orderListID += result.getInt("menuid") + ", ";
                     orderTotal += result.getDouble("itemprice");
                 }
-                System.out.println(orderListID);
-                System.out.println(orderListID.substring(0, orderListID.length() - 2));
+                 
             } catch (Exception d) {
                 d.printStackTrace();
                 System.err.println(e.getClass().getName() + ": " + d.getMessage());
@@ -371,7 +373,13 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
     public JComboBox<String> getMenuItemList() {
         JComboBox<String> dropdownMenu = new JComboBox<String>();
         dropdownMenu.addItem("Select Item");
-
+        try {
+            conn = DriverManager.getConnection(dbConnectionString, dbSetup.user, dbSetup.pswd);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
         try {
             Statement newStmt = conn.createStatement();
             String sqlStatement = "SELECT itemname FROM menu";
@@ -395,11 +403,11 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             itemName.setText("Replace with Item Name");
             itemPrice.setText("Replace with Price");
             itemInv.setText("Replace with Ingredient List");
-        }else if(name == "Select Item") {
+        } else if (name == "Select Item") {
             itemName.setText("");
             itemPrice.setText("");
             itemInv.setText("");
-       
+
         } else {
 
             try {
@@ -525,12 +533,13 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
         dropdownMenu.addItem("Add New Item....");
         return dropdownMenu;
     }
+
     public void updateInvText(String name) {
         if (name == "Add New Item....") {
             invName.setText("Replace with Item Name");
             invPrice.setText("Replace with Price");
             invCount.setText("Replace with Ingredient Count");
-        }else if(name == "Select Item") {
+        } else if (name == "Select Item") {
             invName.setText("");
             invPrice.setText("");
             invCount.setText("");
@@ -543,8 +552,8 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
                 if (result.next()) {
                     // set text areas
                     invName.setText(name);
-                    invPrice.setText(String.valueOf(result.getDouble("costper")) );
-                    invCount.setText(String.valueOf(result.getDouble("numitems")) );
+                    invPrice.setText(String.valueOf(result.getDouble("costper")));
+                    invCount.setText(String.valueOf(result.getDouble("numitems")));
 
                 }
             } catch (Exception d) {
@@ -555,7 +564,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
         }
     }
 
-    public void addHelperInventory(){
+    public void addHelperInventory() {
         int currInventoryID = 0;
 
         try {
@@ -576,7 +585,7 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
             String sqlStatement = "INSERT INTO inventory VALUES (?, ? ,?, ?) ";
             PreparedStatement pstmt = conn.prepareStatement(sqlStatement);
             String newName = invName.getText();
-            pstmt.setInt(1, currInventoryID); 
+            pstmt.setInt(1, currInventoryID);
             pstmt.setDouble(2, Double.valueOf(invCount.getText()));
             pstmt.setDouble(3, Double.valueOf(invPrice.getText()));
             pstmt.setString(4, invName.getText());
@@ -594,10 +603,11 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
         }
     }
 
-    public void updateHelperInventory(String name){
+    public void updateHelperInventory(String name) {
         try {
 
-            String sqlStatement = "UPDATE inventory SET itemname = ?, costper = ?, numitems = ? WHERE itemname = '" + name
+            String sqlStatement = "UPDATE inventory SET itemname = ?, costper = ?, numitems = ? WHERE itemname = '"
+                    + name
                     + "'";
             PreparedStatement pstmt = conn.prepareStatement(sqlStatement);
             String newName = invName.getText();
@@ -622,16 +632,78 @@ public class jdbcpostgreSQL extends JFrame implements ActionListener {
 
         }
     }
+
+    public void updateInventory(String inputString) {
+        String currInvString = "";
+        String[] inputArray = inputString.split(",\\s*");
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (String str : inputArray) {
+            int value = Integer.parseInt(str.trim());
+            arrayList.add(value);
+        }
+ 
+
+        for (Integer menuID : arrayList) {
+            try {
+                Statement newStmt = conn.createStatement();
+                String sqlStatement = "SELECT invlist FROM menu WHERE menuid = " + menuID;
+                ResultSet result = newStmt.executeQuery(sqlStatement);
+                if (result.next()) {
+                    currInvString = result.getString("invlist");
+                }
+            } catch (Exception d) {
+                d.printStackTrace();
+                System.err.println(d.getClass().getName() + ": " + d.getMessage());
+                System.exit(0);
+            }
+
+            String[] invArray = currInvString.split(",\\s*");
+
+            for (String invid : invArray) {
+                int value = Integer.parseInt(invid.trim());
+                try {
+
+                    String sqlStatement = "UPDATE inventory SET numitems = numitems - 1 WHERE invid = ?";
+                    PreparedStatement pstmt = conn.prepareStatement(sqlStatement);
+
+                    pstmt.setInt(1, value);
+
+                    pstmt.executeUpdate();
+
+                } catch (Exception d) {
+                    d.printStackTrace();
+                    System.err.println(d.getClass().getName() + ": " + d.getMessage());
+                    System.exit(0);
+                }
+            }
+
+        }
+
+    }
+
     /**
-     * 
+     *
      * @param args an array of command-line arguments passed to the program
      *             This main method is where the jdbcpostgreSQL class will be
      *             invoked, creating a new GUI.
-     * 
+     *
      */
+
     public static void main(String args[]) {
 
-        new jdbcpostgreSQL();
+        jdbcpostgreSQL this_db = new jdbcpostgreSQL();
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                try {
+                    this_db.conn.close();
+                    System.out.println("Database connection closed.");
+                } catch (SQLException e) {
+                    System.out.println("Failed to close database connection.");
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }// end main
 }// end Class
